@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Arijit Halder — Frontend Developer</title>
+<meta name="description" content="Arijit Halder, Frontend Developer. Building fast, accessible interfaces with React and TypeScript." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/devicon/2.15.1/devicon.min.css">
+
+<style>
+  :root{
+    --bg: #0B0D12;
+    --surface: #12151C;
+    --surface-2: #171B24;
+    --border: #1E2230;
+    --text: #E6E8EE;
+    --text-dim: #8B92A6;
+    --text-faint: #565D70;
+    --accent: #7DD3C0;
+    --accent-dim: #4E9C8E;
+    --accent-2: #F2B880;
+    --radius: 10px;
+    --maxw: 1120px;
+    --font-display: 'Space Grotesk', sans-serif;
+    --font-body: 'Inter', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+  }
+
+  *{ margin:0; padding:0; box-sizing:border-box; }
+
+  html{ scroll-behavior:smooth; }
+
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--font-body);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  ::selection{ background:var(--accent); color:#0B0D12; }
+
+  a{ color:inherit; text-decoration:none; }
+
+  img{ max-width:100%; display:block; }
+
+  .wrap{ max-width:var(--maxw); margin:0 auto; padding:0 24px; }
+
+  :focus-visible{
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  /* ---------- Nav ---------- */
+  header{
+    position:sticky; top:0; z-index:100;
+    background:rgba(11,13,18,0.85);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--border);
+  }
+  nav.wrap{
+    display:flex; align-items:center; justify-content:space-between;
+    height:68px;
+  }
+  .logo{
+    font-family:var(--font-mono);
+    font-weight:600;
+    font-size:15px;
+    color:var(--text);
+    display:flex; align-items:center; gap:8px;
+  }
+  .logo .dot{ width:8px; height:8px; border-radius:50%; background:var(--accent); box-shadow:0 0 8px var(--accent); }
+
+  .nav-links{ display:flex; align-items:center; gap:32px; list-style:none; }
+  .nav-links a{
+    font-size:14px; color:var(--text-dim); font-weight:500;
+    transition:color .2s ease;
+  }
+  .nav-links a:hover{ color:var(--text); }
+
+  .nav-cta{
+    font-family:var(--font-mono);
+    font-size:13px;
+    padding:9px 16px;
+    border:1px solid var(--border);
+    border-radius:8px;
+    color:var(--text);
+    transition: border-color .2s ease, background .2s ease;
+  }
+  .nav-cta:hover{ border-color:var(--accent); background:rgba(125,211,192,0.08); }
+
+  .nav-toggle{ display:none; background:none; border:none; color:var(--text); cursor:pointer; padding:8px; }
+  .nav-toggle svg{ width:22px; height:22px; }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    padding:96px 0 88px;
+    display:grid;
+    grid-template-columns: 1.05fr 1fr;
+    gap:64px;
+    align-items:center;
+  }
+
+  .eyebrow{
+    font-family:var(--font-mono);
+    font-size:13px;
+    color:var(--accent);
+    letter-spacing:0.04em;
+    display:flex; align-items:center; gap:10px;
+    margin-bottom:20px;
+  }
+  .eyebrow .pulse{
+    width:7px; height:7px; border-radius:50%; background:var(--accent);
+    box-shadow:0 0 0 0 rgba(125,211,192,0.6);
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse{
+    0%{ box-shadow:0 0 0 0 rgba(125,211,192,0.5); }
+    70%{ box-shadow:0 0 0 8px rgba(125,211,192,0); }
+    100%{ box-shadow:0 0 0 0 rgba(125,211,192,0); }
+  }
+
+  .hero h1{
+    font-family:var(--font-display);
+    font-weight:700;
+    font-size:clamp(36px, 5vw, 56px);
+    line-height:1.08;
+    letter-spacing:-0.01em;
+    margin-bottom:20px;
+  }
+  .hero h1 span{ color:var(--accent); }
+
+  .hero p.lead{
+    font-size:16px;
+    color:var(--text-dim);
+    max-width:480px;
+    margin-bottom:32px;
+  }
+
+  .hero-actions{ display:flex; align-items:center; gap:14px; flex-wrap:wrap; margin-bottom:36px; }
+
+  .btn{
+    font-family:var(--font-body);
+    font-weight:600;
+    font-size:14px;
+    padding:13px 22px;
+    border-radius:8px;
+    display:inline-flex; align-items:center; gap:8px;
+    transition: transform .15s ease, background .2s ease, border-color .2s ease;
+  }
+  .btn-primary{ background:var(--accent); color:#0B0D12; }
+  .btn-primary:hover{ transform:translateY(-2px); background:#8fdccb; }
+  .btn-ghost{ border:1px solid var(--border); color:var(--text); }
+  .btn-ghost:hover{ transform:translateY(-2px); border-color:var(--text-dim); }
+
+  .hero-socials{ display:flex; gap:18px; }
+  .hero-socials a{
+    font-family:var(--font-mono);
+    font-size:13px;
+    color:var(--text-faint);
+    transition:color .2s ease;
+  }
+  .hero-socials a:hover{ color:var(--accent); }
+
+  /* Terminal signature element */
+  .terminal{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    overflow:hidden;
+    box-shadow:0 20px 60px -20px rgba(0,0,0,0.6);
+  }
+  .terminal-bar{
+    display:flex; align-items:center; gap:8px;
+    padding:12px 16px;
+    background:var(--surface-2);
+    border-bottom:1px solid var(--border);
+  }
+  .terminal-bar span{ width:11px; height:11px; border-radius:50%; }
+  .terminal-bar span:nth-child(1){ background:#F2867F; }
+  .terminal-bar span:nth-child(2){ background:#F2C879; }
+  .terminal-bar span:nth-child(3){ background:#7DD3A0; }
+  .terminal-title{
+    font-family:var(--font-mono); font-size:12px; color:var(--text-faint);
+    margin-left:8px;
+  }
+  .terminal-body{
+    padding:22px 20px;
+    font-family:var(--font-mono);
+    font-size:13.5px;
+    line-height:1.85;
+    color:var(--text-dim);
+    min-height:260px;
+  }
+  .terminal-body .kw{ color:#C792EA; }
+  .terminal-body .str{ color:var(--accent-2); }
+  .terminal-body .prop{ color:var(--accent); }
+  .terminal-body .punc{ color:var(--text-faint); }
+  .terminal-body #typed-out{ white-space:pre-wrap; }
+  .cursor{
+    display:inline-block; width:7px; height:15px; background:var(--accent);
+    margin-left:2px; animation:blink 1s step-end infinite; vertical-align:-2px;
+  }
+  @keyframes blink{ 50%{ opacity:0; } }
+
+  /* ---------- Section shell ---------- */
+  section{ padding:88px 0; border-top:1px solid var(--border); }
+  .section-head{ margin-bottom:44px; }
+  .section-tag{
+    font-family:var(--font-mono);
+    font-size:12.5px; color:var(--accent);
+    letter-spacing:0.06em; text-transform:uppercase;
+    margin-bottom:10px; display:block;
+  }
+  .section-head h2{
+    font-family:var(--font-display);
+    font-size:clamp(26px, 3vw, 34px);
+    font-weight:600;
+  }
+
+  .reveal{ opacity:0; transform:translateY(16px); transition:opacity .6s ease, transform .6s ease; }
+  .reveal.in{ opacity:1; transform:translateY(0); }
+
+  /* ---------- About ---------- */
+  .about-grid{ display:grid; grid-template-columns:1.3fr 0.7fr; gap:56px; }
+  .about-grid p{ color:var(--text-dim); font-size:15.5px; margin-bottom:16px; max-width:60ch; }
+  .about-grid p strong{ color:var(--text); font-weight:600; }
+
+  .facts{ display:flex; flex-direction:column; gap:0; }
+  .fact{
+    display:flex; justify-content:space-between; gap:12px;
+    padding:14px 0;
+    border-bottom:1px solid var(--border);
+    font-size:14px;
+  }
+  .fact:first-child{ border-top:1px solid var(--border); }
+  .fact span:first-child{ color:var(--text-faint); font-family:var(--font-mono); font-size:12.5px; }
+  .fact span:last-child{ color:var(--text); font-weight:500; text-align:right; }
+
+  /* ---------- Skills marquee ---------- */
+  .marquee-wrap{
+    overflow:hidden;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  }
+  .marquee-track{
+    display:flex; gap:14px; width:max-content;
+    animation: scroll 34s linear infinite;
+  }
+  .marquee-wrap:hover .marquee-track{ animation-play-state:paused; }
+  @keyframes scroll{
+    from{ transform:translateX(0); }
+    to{ transform:translateX(-50%); }
+  }
+  .skill-chip{
+    display:flex; align-items:center; gap:10px;
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:9px;
+    padding:12px 18px;
+    font-family:var(--font-mono);
+    font-size:13.5px;
+    color:var(--text-dim);
+    white-space:nowrap;
+  }
+  .skill-chip i{ font-size:18px; color:var(--text); }
+
+  /* ---------- Experience ---------- */
+  .timeline{ display:flex; flex-direction:column; }
+  .tl-item{
+    display:grid;
+    grid-template-columns:160px 1fr;
+    gap:28px;
+    padding:28px 0;
+    border-bottom:1px solid var(--border);
+  }
+  .tl-item:first-child{ padding-top:0; }
+  .tl-item:last-child{ border-bottom:none; }
+  .tl-date{
+    font-family:var(--font-mono); font-size:12.5px; color:var(--text-faint);
+    padding-top:3px;
+  }
+  .tl-role{ font-family:var(--font-display); font-size:19px; font-weight:600; margin-bottom:4px; }
+  .tl-company{ font-size:14px; color:var(--accent); margin-bottom:2px; }
+  .tl-loc{ font-size:13px; color:var(--text-faint); margin-bottom:12px; }
+  .tl-desc{ font-size:14.5px; color:var(--text-dim); max-width:64ch; }
+
+  /* ---------- Projects ---------- */
+  .projects-grid{ display:grid; grid-template-columns:repeat(2, 1fr); gap:24px; }
+  .card{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    padding:26px;
+    display:flex; flex-direction:column;
+    transition: border-color .2s ease, transform .2s ease;
+  }
+  .card:hover{ border-color:var(--accent-dim); transform:translateY(-3px); }
+  .card-top{ display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:14px; }
+  .card h3{ font-family:var(--font-display); font-size:19px; font-weight:600; }
+  .card-links{ display:flex; gap:12px; }
+  .card-links a{ color:var(--text-faint); transition:color .2s ease; }
+  .card-links a:hover{ color:var(--accent); }
+  .card-links svg{ width:18px; height:18px; }
+  .card p{ font-size:14px; color:var(--text-dim); margin-bottom:18px; flex-grow:1; }
+  .tags{ display:flex; flex-wrap:wrap; gap:8px; }
+  .tag{
+    font-family:var(--font-mono); font-size:11.5px;
+    color:var(--accent-2);
+    background:rgba(242,184,128,0.08);
+    border:1px solid rgba(242,184,128,0.22);
+    padding:4px 9px; border-radius:20px;
+  }
+
+  /* ---------- Contact ---------- */
+  .contact{ text-align:center; }
+  .contact .section-head{ margin-bottom:28px; }
+  .contact h2{
+    font-family:var(--font-display); font-weight:600;
+    font-size:clamp(28px,4vw,42px);
+    max-width:16ch; margin:0 auto 28px;
+  }
+  .contact-email{
+    font-family:var(--font-mono);
+    font-size:clamp(18px,2.6vw,26px);
+    color:var(--accent);
+    border-bottom:1px solid var(--accent-dim);
+    padding-bottom:4px;
+  }
+  .contact-sub{ color:var(--text-dim); font-size:14.5px; margin-top:18px; max-width:44ch; margin-left:auto; margin-right:auto; }
+
+  /* ---------- Footer ---------- */
+  footer{ border-top:1px solid var(--border); padding:32px 0; }
+  .footer-wrap{
+    display:flex; justify-content:space-between; align-items:center;
+    font-size:13px; color:var(--text-faint);
+  }
+  .footer-socials{ display:flex; gap:20px; }
+  .footer-socials a{ color:var(--text-faint); transition:color .2s ease; }
+  .footer-socials a:hover{ color:var(--accent); }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 860px){
+    .nav-links, .nav-cta{ display:none; }
+    .nav-toggle{ display:block; }
+    .nav-links.open{
+      display:flex; position:absolute; top:68px; left:0; right:0;
+      flex-direction:column; background:var(--bg); border-bottom:1px solid var(--border);
+      padding:20px 24px; gap:18px;
+    }
+    .hero{ grid-template-columns:1fr; padding:56px 0 64px; gap:40px; }
+    .about-grid{ grid-template-columns:1fr; gap:28px; }
+    .projects-grid{ grid-template-columns:1fr; }
+    .tl-item{ grid-template-columns:1fr; gap:6px; }
+    section{ padding:64px 0; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important; scroll-behavior:auto !important; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <nav class="wrap">
+    <a href="#top" class="logo"><span class="dot"></span>arijit.dev</a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#about">About</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a href="#" class="nav-cta">Resume ↗</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+  </nav>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="hero wrap" style="border-top:none; padding-bottom:88px;">
+    <div>
+      <span class="eyebrow"><span class="pulse"></span>Available for new roles</span>
+      <h1>Arijit Halder builds interfaces that feel <span>inevitable.</span></h1>
+      <p class="lead">Frontend developer focused on React, TypeScript, and design systems — turning fussy requirements into fast, accessible product.</p>
+      <div class="hero-actions">
+        <a href="#projects" class="btn btn-primary">View projects</a>
+        <a href="#contact" class="btn btn-ghost">Get in touch</a>
+      </div>
+      <div class="hero-socials">
+        <a href="https://github.com/arijithalder01" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://twitter.com/arijithalder01" target="_blank" rel="noopener">Twitter</a>
+      </div>
+    </div>
+
+    <div class="terminal">
+      <div class="terminal-bar">
+        <span></span><span></span><span></span>
+        <span class="terminal-title">about-me.ts</span>
+      </div>
+      <div class="terminal-body">
+<span id="typed-out"></span><span class="cursor"></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="section-tag">01 — About</span>
+        <h2>A little more context</h2>
+      </div>
+      <div class="about-grid">
+        <div class="reveal">
+          <p><strong>I'm Arijit</strong>, a frontend developer with a background in design, which shows up in how I build: type scales, spacing, and motion get the same attention as component architecture.</p>
+          <p>Most of my work lives in <strong>React and TypeScript</strong>, shipping product UI, internal tools, and the occasional design system. I care about interfaces that stay fast and legible as they grow — not just on day one.</p>
+          <p>Outside of client work, I contribute to a couple of open-source component libraries and write short notes on frontend architecture and accessibility.</p>
+        </div>
+        <div class="facts reveal">
+          <div class="fact"><span>LOCATION</span><span>Kolkata, India</span></div>
+          <div class="fact"><span>FOCUS</span><span>React · TypeScript</span></div>
+          <div class="fact"><span>EXPERIENCE</span><span>5+ years</span></div>
+          <div class="fact"><span>STATUS</span><span>Open to work</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="section-tag">02 — Skills</span>
+        <h2>Tools I reach for</h2>
+      </div>
+    </div>
+    <div class="marquee-wrap reveal">
+      <div class="marquee-track" id="marqueeTrack">
+        <!-- items injected twice via JS for seamless loop -->
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="section-tag">03 — Experience</span>
+        <h2>Freelance engagements</h2>
+      </div>
+      <div class="timeline">
+        <div class="tl-item reveal">
+          <div class="tl-date">2023 — Present</div>
+          <div>
+            <div class="tl-role">Freelance Web Developer</div>
+            <div class="tl-company">Self-employed</div>
+            <div class="tl-loc">Remote</div>
+            <p class="tl-desc">Working independently with clients on frontend builds — product UI, marketing sites, and component work — in React and TypeScript.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="section-tag">04 — Projects</span>
+        <h2>Selected work</h2>
+      </div>
+      <div class="projects-grid">
+
+        <div class="card reveal">
+          <div class="card-top">
+            <h3>Fieldnote</h3>
+            <div class="card-links">
+              <a href="#" aria-label="GitHub repo"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.1.79-.25.79-.56 0-.28-.01-1.02-.02-2-3.2.7-3.88-1.54-3.88-1.54-.52-1.34-1.28-1.69-1.28-1.69-1.04-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.56-.29-5.26-1.28-5.26-5.7 0-1.26.45-2.29 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11.05 11.05 0 0 1 5.79 0c2.2-1.49 3.17-1.18 3.17-1.18.64 1.59.24 2.76.12 3.05.74.8 1.19 1.83 1.19 3.09 0 4.43-2.71 5.4-5.29 5.69.42.36.78 1.08.78 2.18 0 1.57-.02 2.84-.02 3.23 0 .31.21.67.8.56A10.52 10.52 0 0 0 23.5 12c0-6.35-5.15-11.5-11.5-11.5Z"/></svg></a>
+              <a href="#" aria-label="Live site"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6"/><path d="M10 14 21 3"/></svg></a>
+            </div>
+          </div>
+          <p>A lightweight notes app for field researchers, with offline-first sync and map-pinned entries. Built solo, now used by two university research groups.</p>
+          <div class="tags"><span class="tag">React</span><span class="tag">TypeScript</span><span class="tag">IndexedDB</span></div>
+        </div>
+
+        <div class="card reveal">
+          <div class="card-top">
+            <h3>Ledgerline</h3>
+            <div class="card-links">
+              <a href="#" aria-label="GitHub repo"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.1.79-.25.79-.56 0-.28-.01-1.02-.02-2-3.2.7-3.88-1.54-3.88-1.54-.52-1.34-1.28-1.69-1.28-1.69-1.04-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.56-.29-5.26-1.28-5.26-5.7 0-1.26.45-2.29 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11.05 11.05 0 0 1 5.79 0c2.2-1.49 3.17-1.18 3.17-1.18.64 1.59.24 2.76.12 3.05.74.8 1.19 1.83 1.19 3.09 0 4.43-2.71 5.4-5.29 5.69.42.36.78 1.08.78 2.18 0 1.57-.02 2.84-.02 3.23 0 .31.21.67.8.56A10.52 10.52 0 0 0 23.5 12c0-6.35-5.15-11.5-11.5-11.5Z"/></svg></a>
+              <a href="#" aria-label="Live site"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6"/><path d="M10 14 21 3"/></svg></a>
+            </div>
+          </div>
+          <p>Budgeting tool for freelancers with a spreadsheet-like grid UI. Focused on keyboard-first interaction and sub-100ms cell updates at scale.</p>
+          <div class="tags"><span class="tag">Next.js</span><span class="tag">Zustand</span><span class="tag">Postgres</span></div>
+        </div>
+
+        <div class="card reveal">
+          <div class="card-top">
+            <h3>Component Atlas</h3>
+            <div class="card-links">
+              <a href="#" aria-label="GitHub repo"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.1.79-.25.79-.56 0-.28-.01-1.02-.02-2-3.2.7-3.88-1.54-3.88-1.54-.52-1.34-1.28-1.69-1.28-1.69-1.04-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.56-.29-5.26-1.28-5.26-5.7 0-1.26.45-2.29 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11.05 11.05 0 0 1 5.79 0c2.2-1.49 3.17-1.18 3.17-1.18.64 1.59.24 2.76.12 3.05.74.8 1.19 1.83 1.19 3.09 0 4.43-2.71 5.4-5.29 5.69.42.36.78 1.08.78 2.18 0 1.57-.02 2.84-.02 3.23 0 .31.21.67.8.56A10.52 10.52 0 0 0 23.5 12c0-6.35-5.15-11.5-11.5-11.5Z"/></svg></a>
+              <a href="#" aria-label="Live site"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6"/><path d="M10 14 21 3"/></svg></a>
+            </div>
+          </div>
+          <p>An open-source, accessible component library with 40+ primitives, built on Radix and styled with a token-based theming system.</p>
+          <div class="tags"><span class="tag">React</span><span class="tag">Radix UI</span><span class="tag">Vite</span></div>
+        </div>
+
+        <div class="card reveal">
+          <div class="card-top">
+            <h3>Signal</h3>
+            <div class="card-links">
+              <a href="#" aria-label="GitHub repo"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.1.79-.25.79-.56 0-.28-.01-1.02-.02-2-3.2.7-3.88-1.54-3.88-1.54-.52-1.34-1.28-1.69-1.28-1.69-1.04-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.56-.29-5.26-1.28-5.26-5.7 0-1.26.45-2.29 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11.05 11.05 0 0 1 5.79 0c2.2-1.49 3.17-1.18 3.17-1.18.64 1.59.24 2.76.12 3.05.74.8 1.19 1.83 1.19 3.09 0 4.43-2.71 5.4-5.29 5.69.42.36.78 1.08.78 2.18 0 1.57-.02 2.84-.02 3.23 0 .31.21.67.8.56A10.52 10.52 0 0 0 23.5 12c0-6.35-5.15-11.5-11.5-11.5Z"/></svg></a>
+              <a href="#" aria-label="Live site"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6"/><path d="M10 14 21 3"/></svg></a>
+            </div>
+          </div>
+          <p>Real-time status page for small teams — incident timelines, uptime charts, and subscriber notifications, deployable in minutes.</p>
+          <div class="tags"><span class="tag">React</span><span class="tag">WebSockets</span><span class="tag">Tailwind</span></div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="contact">
+    <div class="wrap">
+      <div class="section-head reveal" style="text-align:center;">
+        <span class="section-tag">05 — Contact</span>
+      </div>
+      <h2 class="reveal">Have a project in mind? Let's talk.</h2>
+      <a href="mailto:arijithalder01@yahoo.com" class="contact-email reveal">arijithalder01@yahoo.com</a>
+      <p class="contact-sub reveal">I usually reply within a day or two. Open to full-time roles, contract work, and the occasional collaboration.</p>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap footer-wrap">
+    <span>© 2026 Arijit Halder. All rights reserved.</span>
+    <div class="footer-socials">
+      <a href="https://github.com/arijithalder01" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://twitter.com/arijithalder01" target="_blank" rel="noopener">Twitter</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Mobile nav toggle
+  const navToggle = document.getElementById('navToggle');
+  const navLinks = document.getElementById('navLinks');
+  navToggle.addEventListener('click', () => {
+    const isOpen = navLinks.classList.toggle('open');
+    navToggle.setAttribute('aria-expanded', isOpen);
+  });
+  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    navLinks.classList.remove('open');
+    navToggle.setAttribute('aria-expanded', 'false');
+  }));
+
+  // Scroll reveal
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const revealEls = document.querySelectorAll('.reveal');
+  if (reduceMotion) {
+    revealEls.forEach(el => el.classList.add('in'));
+  } else {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    revealEls.forEach(el => io.observe(el));
+  }
+
+  // Terminal typing effect
+  const typedOut = document.getElementById('typed-out');
+  const codeLines = [
+    { text: 'const ', cls: 'kw' },
+    { text: 'developer', cls: '' },
+    { text: ' = {\n', cls: 'punc' },
+    { text: '  name', cls: 'prop' },
+    { text: ': ', cls: 'punc' },
+    { text: '"Arijit Halder"', cls: 'str' },
+    { text: ',\n', cls: 'punc' },
+    { text: '  role', cls: 'prop' },
+    { text: ': ', cls: 'punc' },
+    { text: '"Frontend Developer"', cls: 'str' },
+    { text: ',\n', cls: 'punc' },
+    { text: '  stack', cls: 'prop' },
+    { text: ': [', cls: 'punc' },
+    { text: '"React"', cls: 'str' },
+    { text: ', ', cls: 'punc' },
+    { text: '"TypeScript"', cls: 'str' },
+    { text: ', ', cls: 'punc' },
+    { text: '"Next.js"', cls: 'str' },
+    { text: '],\n', cls: 'punc' },
+    { text: '  focus', cls: 'prop' },
+    { text: ': ', cls: 'punc' },
+    { text: '"fast, accessible UI"', cls: 'str' },
+    { text: ',\n', cls: 'punc' },
+    { text: '  available', cls: 'prop' },
+    { text: ': ', cls: 'punc' },
+    { text: 'true', cls: 'kw' },
+    { text: '\n};', cls: 'punc' },
+  ];
+
+  function escapeHtml(s){
+    return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+  async function typeCode(){
+    if (reduceMotion) {
+      typedOut.innerHTML = codeLines.map(l => `<span class="${l.cls}">${escapeHtml(l.text)}</span>`).join('');
+      return;
+    }
+    for (const line of codeLines) {
+      const span = document.createElement('span');
+      span.className = line.cls;
+      typedOut.appendChild(span);
+      for (const ch of line.text) {
+        span.textContent += ch;
+        await new Promise(r => setTimeout(r, 16));
+      }
+    }
+  }
+  typeCode();
+
+  // Skills marquee content
+  const skills = [
+    { name: 'React', icon: 'devicon-react-original colored' },
+    { name: 'TypeScript', icon: 'devicon-typescript-plain colored' },
+    { name: 'JavaScript', icon: 'devicon-javascript-plain colored' },
+    { name: 'Next.js', icon: 'devicon-nextjs-original' },
+    { name: 'HTML5', icon: 'devicon-html5-plain colored' },
+    { name: 'CSS3', icon: 'devicon-css3-plain colored' },
+    { name: 'Sass', icon: 'devicon-sass-original colored' },
+    { name: 'Tailwind', icon: 'devicon-tailwindcss-plain colored' },
+    { name: 'Redux', icon: 'devicon-redux-original colored' },
+    { name: 'GraphQL', icon: 'devicon-graphql-plain colored' },
+    { name: 'Figma', icon: 'devicon-figma-plain colored' },
+    { name: 'Git', icon: 'devicon-git-plain colored' },
+    { name: 'Vite', icon: 'devicon-vitejs-plain colored' },
+    { name: 'Jest', icon: 'devicon-jest-plain colored' },
+    { name: 'Node.js', icon: 'devicon-nodejs-plain colored' },
+  ];
+  const track = document.getElementById('marqueeTrack');
+  const chipHtml = skills.map(s => `<div class="skill-chip"><i class="${s.icon}"></i>${s.name}</div>`).join('');
+  track.innerHTML = chipHtml + chipHtml; // duplicate for seamless loop
+</script>
+
+</body>
+</html>
