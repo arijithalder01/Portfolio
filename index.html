@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Arijit Halder — Frontend Developer</title>
+<meta name="description" content="Arijit Halder, Frontend Developer. Building fast, accessible interfaces with React and TypeScript." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/devicon/2.15.1/devicon.min.css">
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+  * { font-family: "DM Sans", sans-serif; }
+  html { scroll-behavior: smooth; background-color: black; }
+  section[id] { scroll-margin-top: 90px; }
+  body { background-color: black; color: white; overflow-x: hidden; }
+
+  .navbar {
+    position: fixed; top: 0; left: 0; width: 100%; z-index: 100;
+    background-color: rgba(255,255,255,0.05);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+
+  .glass-hover { transition: opacity .5s ease, transform .5s ease; }
+
+  /* Glassmorphism */
+  .glass {
+    background: rgba(255,255,255,0.06);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(255,255,255,0.14);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.35);
+  }
+  .glass-strong {
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border: 1px solid rgba(255,255,255,0.18);
+  }
+
+  /* Tech marquee — right to left */
+  .marquee-wrap {
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  }
+  .marquee-track {
+    display: flex; gap: 16px; width: max-content;
+    animation: marquee-scroll 32s linear infinite;
+  }
+  .marquee-wrap:hover .marquee-track { animation-play-state: paused; }
+  @keyframes marquee-scroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  .skill-chip {
+    display: flex; align-items: center; gap: 10px;
+    padding: 12px 20px;
+    border-radius: 12px;
+    font-size: 14px;
+    color: #e6e8ee;
+    white-space: nowrap;
+    transition: transform .2s ease, border-color .2s ease;
+  }
+  .skill-chip:hover { transform: translateY(-3px); border-color: rgba(191,219,254,0.5); }
+  .skill-chip i { font-size: 20px; }
+
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity .6s ease, transform .6s ease; }
+  .reveal.in { opacity: 1; transform: translateY(0); }
+
+  ::selection { background: #bfdbfe; color: black; }
+
+  /* Floating balls background */
+  .bg-balls { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
+  .ball {
+    position: absolute;
+    bottom: -120px;
+    border-radius: 9999px;
+    background: radial-gradient(circle at 32% 28%, rgba(255,255,255,0.55), rgba(191,219,254,0.18) 45%, rgba(191,219,254,0.04) 70%);
+    box-shadow: 0 0 24px rgba(191,219,254,0.15), inset 0 0 12px rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.12);
+    animation: floatUp linear infinite;
+  }
+  @keyframes floatUp {
+    0%   { transform: translate(0, 0) scale(1); opacity: 0; }
+    8%   { opacity: 1; }
+    50%  { transform: translate(var(--drift, 30px), -55vh) scale(1.05); }
+    92%  { opacity: 1; }
+    100% { transform: translate(calc(var(--drift, 30px) * 2), -115vh) scale(0.95); opacity: 0; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, .orbit-wrap, .orbit-icon, .ball, .marquee-track { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+  }
+</style>
+</head>
+<body class="bg-black overflow-x-hidden w-screen text-white relative">
+
+<div class="bg-balls" id="bgBalls" aria-hidden="true"></div>
+
+<!-- NAVBAR -->
+<nav class="navbar relative z-40">
+  <div class="px-10 lg:px-16 h-[80px] w-full flex justify-between items-center">
+    <a href="#top" class="text-2xl 2xl:text-4xl font-bold hover:text-[#bfdbfe] transition">arijit.dev</a>
+
+    <button class="md:hidden z-50" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
+      <svg id="menuIcon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      <svg id="closeIcon" class="hidden" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+
+    <div id="mobileMenu" class="hidden fixed top-0 left-0 h-screen w-screen bg-white z-50 text-black space-y-10 flex-col flex md:hidden justify-center items-center">
+      <button class="absolute top-10 right-10" id="navToggleInner" aria-label="Close menu">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+      <a href="#top" class="mobile-link text-xl font-bold hover:text-[#bfdbfe]">Home</a>
+      <a href="#Services" class="mobile-link text-xl font-bold hover:text-[#bfdbfe]">About</a>
+      <a href="#Works" class="mobile-link text-xl font-bold hover:text-[#bfdbfe]">Works</a>
+      <a href="#Contact" class="mobile-link text-xl font-bold hover:text-[#bfdbfe]">Contact</a>
+    </div>
+
+    <div class="md:flex space-x-10 text-lg 2xl:text-2xl hidden">
+      <a href="#top" class="hover:scale-110 hover:text-[#bfdbfe] transition inline-block">Home</a>
+      <a href="#Services" class="hover:scale-110 hover:text-[#bfdbfe] transition inline-block">About</a>
+      <a href="#Works" class="hover:scale-110 hover:text-[#bfdbfe] transition inline-block">Works</a>
+      <a href="#Contact" class="hover:scale-110 hover:text-[#bfdbfe] transition inline-block">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<div id="top" class="relative z-10">
+
+  <!-- HERO -->
+  <section class="lg:h-screen md:flex mt-16 lg:mt-[-50px] justify-between 2xl:justify-center 2xl:space-x-48 items-center px-10 lg:px-16 space-y-14 md:space-y-0 pt-24">
+    <div class="space-y-7 reveal">
+      <div>
+        <h1 class="text-3xl lg:text-5xl font-bold">Hello, I'm <span class="text-[#bfdbfe]" id="typed-name"></span></h1>
+        <h3 class="text-xs lg:text-base italic mt-1">Frontend Developer</h3>
+      </div>
+      <div class="space-y-4">
+        <p class="text-justify lg:text-xl w-full md:max-w-[45vw] lg:max-w-[700px] hover:text-[#bfdbfe] cursor-pointer transition">
+          Frontend developer focused on React, TypeScript, and design systems — turning fussy requirements into fast, accessible product.
+        </p>
+        <div class="flex items-center space-x-4">
+          <a href="https://github.com/arijithalder01" target="_blank" rel="noopener" class="hover:scale-125 hover:text-[#bfdbfe] transition inline-block" aria-label="GitHub">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.1.79-.25.79-.56 0-.28-.01-1.02-.02-2-3.2.7-3.88-1.54-3.88-1.54-.52-1.34-1.28-1.69-1.28-1.69-1.04-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.56-.29-5.26-1.28-5.26-5.7 0-1.26.45-2.29 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11.05 11.05 0 0 1 5.79 0c2.2-1.49 3.17-1.18 3.17-1.18.64 1.59.24 2.76.12 3.05.74.8 1.19 1.83 1.19 3.09 0 4.43-2.71 5.4-5.29 5.69.42.36.78 1.08.78 2.18 0 1.57-.02 2.84-.02 3.23 0 .31.21.67.8.56A10.52 10.52 0 0 0 23.5 12c0-6.35-5.15-11.5-11.5-11.5Z"/></svg>
+          </a>
+          <a href="https://twitter.com/arijithalder01" target="_blank" rel="noopener" class="hover:scale-125 hover:text-[#bfdbfe] transition inline-block" aria-label="Twitter">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M23.44 4.83c-.8.37-1.5.38-2.22.02.93-.56.98-.96 1.32-2.02-.88.52-1.86.9-2.9 1.1a4.52 4.52 0 0 0-7.7 4.13A12.81 12.81 0 0 1 2.1 3.16a4.5 4.5 0 0 0 1.4 6.04c-.72-.02-1.4-.22-2-.55v.06a4.52 4.52 0 0 0 3.63 4.43c-.66.18-1.36.2-2.02.08a4.53 4.53 0 0 0 4.22 3.14 9.06 9.06 0 0 1-6.7 1.87A12.78 12.78 0 0 0 7.02 20c8.36 0 12.94-6.93 12.94-12.94l-.01-.59c.89-.63 1.66-1.43 2.27-2.34z"/></svg>
+          </a>
+          <a href="#Contact" class="bg-white hover:bg-[#bfdbfe] text-black font-bold flex items-center py-2 px-4 space-x-2 rounded-[100px] transition">
+            <span>Get In Touch</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT / SERVICES -->
+  <section id="Services" class="pt-24">
+    <div class="flex flex-col justify-center items-center px-10 lg:px-16 mt-[40px]">
+      <h1 class="text-xl sm:text-2xl text-gray-300 font-bold text-center mb-10 reveal">
+        TECH<span class="text-[#bfdbfe]">NOLOGIES</span>
+      </h1>
+      <div class="marquee-wrap reveal w-full max-w-6xl">
+        <div class="marquee-track" id="marqueeTrack"></div>
+      </div>
+
+      <div class="md:flex md:justify-between md:items-center 2xl:justify-center md:space-x-16 lg:space-x-32 mt-28 flex-wrap w-full max-w-6xl">
+        <div class="space-y-3 w-full md:max-w-[45vw] lg:max-w-[520px] reveal">
+          <h1 class="text-3xl cursor-pointer 2xl:text-4xl hover:px-3 text-[#bfdbfe] font-bold transition-all">ABOUT ME</h1>
+          <p class="text-justify text-sm 2xl:text-lg hover:text-[#bfdbfe] cursor-pointer transition">
+            <strong class="text-white">I'm Arijit</strong>, a frontend developer with a background in design, which shows up in how I build: type scales, spacing, and motion get the same attention as component architecture.
+          </p>
+          <p class="text-justify text-sm 2xl:text-lg hover:text-[#bfdbfe] cursor-pointer transition">
+            Most of my work lives in <strong class="text-white">React and TypeScript</strong>, shipping product UI, internal tools, and the occasional design system. I care about interfaces that stay fast and legible as they grow — not just on day one.
+          </p>
+          <p class="text-justify text-sm 2xl:text-lg hover:text-[#bfdbfe] cursor-pointer transition">
+            Outside of client work, I contribute to a couple of open-source component libraries and write short notes on frontend architecture and accessibility.
+          </p>
+          <a href="#Contact">
+            <button class="bg-blue-900 hover:bg-white hover:text-black p-3 font-bold rounded-md mt-5 transition">Contact Me</button>
+          </a>
+        </div>
+
+        <div class="space-y-6 mt-10 md:mt-0 reveal">
+          <div class="glass hover:bg-white/15 py-3 px-5 2xl:text-xl rounded-2xl cursor-pointer transition flex justify-between gap-8">
+            <span class="font-mono text-xs sm:text-sm text-[#bfdbfe] opacity-80">LOCATION</span><span class="font-semibold">Kolkata, India</span>
+          </div>
+          <div class="glass hover:bg-white/15 py-3 px-5 2xl:text-xl rounded-2xl cursor-pointer transition flex justify-between gap-8">
+            <span class="font-mono text-xs sm:text-sm text-[#bfdbfe] opacity-80">FOCUS</span><span class="font-semibold">React · TypeScript</span>
+          </div>
+          <div class="glass hover:bg-white/15 py-3 px-5 2xl:text-xl rounded-2xl cursor-pointer transition flex justify-between gap-8">
+            <span class="font-mono text-xs sm:text-sm text-[#bfdbfe] opacity-80">EXPERIENCE</span><span class="font-semibold">5+ years</span>
+          </div>
+          <div class="glass hover:bg-white/15 py-3 px-5 2xl:text-xl rounded-2xl cursor-pointer transition flex justify-between gap-8">
+            <span class="font-mono text-xs sm:text-sm text-[#bfdbfe] opacity-80">STATUS</span><span class="font-semibold">Open to work</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WORKS: EXPERIENCE + PROJECTS -->
+  <section id="Works" class="px-10 lg:px-16 mt-32 pt-10">
+    <h1 class="text-3xl cursor-pointer 2xl:text-4xl text-gray-300 hover:px-3 font-bold transition-all reveal">
+      WORK <span class="text-[#bfdbfe]">EXPERIENCE</span>
+    </h1>
+
+    <div class="mt-16 grid gap-10 sm:gap-8 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+      <div class="max-w-[767px] rounded-xl px-5 glass py-7 flex flex-col items-center space-y-5 reveal hover:bg-white/10 transition">
+        <div class="space-y-3 text-center">
+          <h1 class="text-xl font-bold text-[#bfdbfe]">FREELANCE WEB DEVELOPER</h1>
+          <h2 class="text-sm text-gray-300">2023 — Present</h2>
+          <div class="w-[64px] h-[64px] mx-auto rounded-full bg-blue-900 flex items-center justify-center text-lg font-bold text-[#bfdbfe]">SE</div>
+          <p class="text-xs text-gray-400">Self-employed · Remote</p>
+        </div>
+        <div class="space-y-2">
+          <h2 class="text-[#bfdbfe]">Description</h2>
+          <p class="text-justify text-sm">
+            Working independently with clients on frontend builds — product UI, marketing sites, and component work — in React and TypeScript.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROJECTS -->
+    <div class="mt-28">
+      <h1 class="text-3xl cursor-pointer 2xl:text-4xl text-gray-300 hover:px-3 font-bold transition-all reveal">
+        PRO<span class="text-[#bfdbfe]">JECTS</span>
+      </h1>
+
+      <div class="mt-16 grid gap-10 sm:gap-8 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3" id="projectsGrid"></div>
+
+      <div class="flex justify-center mt-14 reveal">
+        <a href="https://github.com/arijithalder01?tab=repositories" target="_blank" rel="noopener">
+          <button class="bg-transparent border border-white/30 px-8 py-3 font-bold rounded-xl hover:bg-white hover:text-black hover:border-white transition">More</button>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <div class="my-16 bg-gray-700 h-[1px] mx-10"></div>
+
+  <!-- CONTACT -->
+  <section id="Contact" class="px-10 lg:px-16 pb-32 pt-10 min-h-[65vh] flex flex-col justify-center text-center">
+    <h1 class="text-3xl cursor-pointer 2xl:text-4xl text-gray-300 hover:px-3 font-bold transition-all reveal inline-block">
+      CON<span class="text-[#bfdbfe]">TACT</span>
+    </h1>
+    <h2 class="reveal text-2xl 2xl:text-3xl font-semibold max-w-[16ch] mx-auto mt-6">Have a project in mind? Let's talk.</h2>
+    <a href="mailto:arijithalder01@yahoo.com" class="reveal inline-block mt-6 font-mono font-bold text-lg sm:text-xl 2xl:text-2xl text-[#bfdbfe] border-b border-[#bfdbfe]/40 pb-1 hover:border-[#bfdbfe] transition">
+      arijithalder01@yahoo.com
+    </a>
+    <p class="reveal text-gray-400 text-sm 2xl:text-base mt-5 max-w-[44ch] mx-auto">
+      I usually reply within a day or two. Open to full-time roles, contract work, and the occasional collaboration.
+    </p>
+  </section>
+
+</div>
+
+<!-- FOOTER -->
+<footer class="relative z-10">
+  <div class="bg-black w-full text-white px-10 lg:px-16 py-10">
+    <div class="grid w-full justify-between sm:flex sm:justify-between md:flex md:grid-cols-1">
+      <div class="flex items-center py-7">
+        <span class="self-center text-3xl font-semibold whitespace-nowrap text-white">arijit.dev</span>
+      </div>
+
+      <div class="grid grid-cols-2 gap-8 sm:mt-4 sm:gap-6">
+        <div>
+          <h2 class="mb-4 text-sm font-semibold uppercase text-white">About</h2>
+          <ul class="space-y-3">
+            <li><a href="#Services" class="hover:text-[#bfdbfe] transition">Services</a></li>
+            <li><a href="#Works" class="hover:text-[#bfdbfe] transition">Works</a></li>
+            <li><a href="#Contact" class="hover:text-[#bfdbfe] transition">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h2 class="mb-4 text-sm font-semibold uppercase text-white">Follow us</h2>
+          <ul class="space-y-3">
+            <li><a href="https://github.com/arijithalder01" target="_blank" rel="noopener" class="hover:text-[#bfdbfe] transition">Github</a></li>
+            <li><a href="https://twitter.com/arijithalder01" target="_blank" rel="noopener" class="hover:text-[#bfdbfe] transition">Twitter</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <hr class="border-gray-700" />
+    <div class="w-full sm:flex sm:items-center sm:justify-center pt-6 text-sm text-gray-400">
+      © <span id="year"></span> arijit.dev. All rights reserved.
+    </div>
+  </div>
+  <div class="flex flex-col font-bold justify-center items-center my-7">
+    <button onclick="window.scrollTo({top:0,behavior:'smooth'})" class="py-2 px-2 rounded-full bg-white text-black hover:bg-[#bfdbfe] transition" aria-label="Scroll to top">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 8l-6 6 1.41 1.41L12 10.83l4.59 4.58L18 14z"/></svg>
+    </button>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // Floating balls background
+  const ballsWrap = document.getElementById('bgBalls');
+  const ballCount = window.innerWidth < 640 ? 12 : 22;
+  for (let i = 0; i < ballCount; i++) {
+    const ball = document.createElement('div');
+    const size = Math.round(10 + Math.random() * 46);
+    const left = Math.random() * 100;
+    const duration = 16 + Math.random() * 18;
+    const delay = -Math.random() * duration;
+    const drift = (Math.random() * 140 - 70).toFixed(0) + 'px';
+    ball.className = 'ball';
+    ball.style.width = `${size}px`;
+    ball.style.height = `${size}px`;
+    ball.style.left = `${left}%`;
+    ball.style.animationDuration = `${duration}s`;
+    ball.style.animationDelay = `${delay}s`;
+    ball.style.setProperty('--drift', drift);
+    ballsWrap.appendChild(ball);
+  }
+
+  // Mobile nav toggle
+  const navToggle = document.getElementById('navToggle');
+  const navToggleInner = document.getElementById('navToggleInner');
+  const mobileMenu = document.getElementById('mobileMenu');
+  const menuIcon = document.getElementById('menuIcon');
+  const closeIcon = document.getElementById('closeIcon');
+
+  function toggleMenu(open) {
+    mobileMenu.classList.toggle('hidden', !open);
+    mobileMenu.classList.toggle('flex', open);
+    menuIcon.classList.toggle('hidden', open);
+    closeIcon.classList.toggle('hidden', !open);
+    navToggle.setAttribute('aria-expanded', open);
+  }
+  navToggle.addEventListener('click', () => toggleMenu(closeIcon.classList.contains('hidden')));
+  navToggleInner.addEventListener('click', () => toggleMenu(false));
+  mobileMenu.querySelectorAll('.mobile-link').forEach(a => a.addEventListener('click', () => toggleMenu(false)));
+
+  // Simple typewriter for the hero name
+  const nameEl = document.getElementById('typed-name');
+  const fullName = 'Arijit Halder!';
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduceMotion) {
+    nameEl.textContent = fullName;
+  } else {
+    let i = 0;
+    (function type() {
+      if (i <= fullName.length) {
+        nameEl.textContent = fullName.slice(0, i);
+        i++;
+        setTimeout(type, 90);
+      }
+    })();
+  }
+
+  // Sliding tech marquee (right to left)
+  const skills = [
+    { name: 'React', icon: 'devicon-react-original colored' },
+    { name: 'TypeScript', icon: 'devicon-typescript-plain colored' },
+    { name: 'JavaScript', icon: 'devicon-javascript-plain colored' },
+    { name: 'Next.js', icon: 'devicon-nextjs-original' },
+    { name: 'HTML5', icon: 'devicon-html5-plain colored' },
+    { name: 'CSS3', icon: 'devicon-css3-plain colored' },
+    { name: 'Sass', icon: 'devicon-sass-original colored' },
+    { name: 'Tailwind', icon: 'devicon-tailwindcss-plain colored' },
+    { name: 'Redux', icon: 'devicon-redux-original colored' },
+    { name: 'GraphQL', icon: 'devicon-graphql-plain colored' },
+    { name: 'Figma', icon: 'devicon-figma-plain colored' },
+    { name: 'Git', icon: 'devicon-git-plain colored' },
+    { name: 'Vite', icon: 'devicon-vitejs-plain colored' },
+    { name: 'Jest', icon: 'devicon-jest-plain colored' },
+    { name: 'Node.js', icon: 'devicon-nodejs-plain colored' },
+  ];
+  const marqueeTrack = document.getElementById('marqueeTrack');
+  const chipHtml = skills.map(s => `<div class="skill-chip glass"><i class="${s.icon}"></i>${s.name}</div>`).join('');
+  marqueeTrack.innerHTML = chipHtml + chipHtml; // duplicate for seamless loop
+
+  // Projects
+  const projects = [
+    {
+      title: 'HABIT HEATMAP',
+      tags: ['JavaScript', 'Canvas', 'localStorage'],
+      description: 'A GitHub-contributions-style heatmap for tracking any personal habit. Click a day to log it, watch streaks build, export the whole year as a PNG — all stored locally, no backend.',
+      url: 'https://github.com/arijithalder01/Habit-Heatmap',
+    },
+    {
+      title: 'DRIFT',
+      tags: ['Web Audio API', 'JavaScript', 'Canvas'],
+      description: 'An ambient focus mixer where every sound — rain, ocean, wind, white/pink/brown noise — is synthesized live in the browser. Save custom mixes, watch real audio-reactive visualizers per channel.',
+      url: 'https://github.com/arijithalder01/Drift-Ambient-Focus-Mixer',
+    },
+    {
+      title: 'THE FILE',
+      tags: ['JavaScript', 'Entropy Math', 'CSS'],
+      description: 'A password strength tool styled like a dark case file. Instead of a bar meter, it narrates how long seven different attackers — a stranger to a nation-state — would take to crack what you typed.',
+      url: 'https://github.com/arijithalder01/The-File-a-password-interrogation-report',
+    },
+    {
+      title: 'THE EXCUSE LOG',
+      tags: ['JavaScript', 'localStorage', 'CSS'],
+      description: 'A ten-second daily habit: log what you avoided and why. Over a couple of weeks it surfaces the pattern — your most common excuse, your worst weekday, the task that keeps coming back.',
+      url: 'https://github.com/arijithalder01/The-Excuse-Log',
+    },
+  ];
+  const grid = document.getElementById('projectsGrid');
+  grid.innerHTML = projects.map(p => `
+    <div class="relative overflow-hidden max-w-[767px] rounded-xl px-5 glass py-5 h-full flex flex-col justify-between space-y-3 group reveal transition hover:bg-white/10">
+      <div class="absolute inset-0 bg-white/15 backdrop-blur-md z-10 pointer-events-none opacity-0 group-hover:opacity-100 glass-hover"></div>
+      <div class="flex-grow z-20">
+        <h1 class="text-[#bfdbfe] text-xl font-bold">${p.title}</h1>
+        <div class="flex flex-wrap gap-3 text-xs my-4">
+          ${p.tags.map(t => `<span class="bg-black py-2 px-3 text-nowrap cursor-pointer rounded-sm text-center font-bold hover:bg-white hover:text-black transition">${t}</span>`).join('')}
+        </div>
+        <p class="text-justify text-sm text-gray-300">${p.description}</p>
+      </div>
+      <a href="${p.url}" target="_blank" rel="noopener" class="z-20 h-fit w-fit inline-block">
+        <button class="bg-black px-5 py-2 font-bold rounded-xl mt-5 hover:bg-white hover:text-black transition">View</button>
+      </a>
+    </div>
+  `).join('');
+
+  // Scroll reveal
+  const revealEls = document.querySelectorAll('.reveal');
+  if (reduceMotion) {
+    revealEls.forEach(el => el.classList.add('in'));
+  } else {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    revealEls.forEach(el => io.observe(el));
+    // also observe project cards added dynamically
+    grid.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  }
+</script>
+
+</body>
+</html>
